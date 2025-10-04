@@ -67,4 +67,49 @@ export const bomAPI = {
   getCostAnalysis: () => api.get('/bom/cost-analysis/summary'),
 };
 
+// Production API
+export const productionAPI = {
+  getAll: () => api.get('/production/'),
+  getById: (id) => api.get(`/production/${id}`),
+  getDetails: (id) => api.get(`/production/${id}/details`),
+  create: (data) => api.post('/production/', data),
+  delete: (id) => api.delete(`/production/${id}`),
+  start: (id) => api.post(`/production/${id}/start`),
+  complete: (id, actualQuantity) => api.post(`/production/${id}/complete`, null, { params: { actual_quantity: actualQuantity } }),
+  getSummary: () => api.get('/production/status/summary'),
+};
+
+// Finished Goods API
+export const finishedGoodsAPI = {
+  getAll: () => api.get('/finished-goods/'),
+  getById: (id) => api.get(`/finished-goods/${id}`),
+  getSummary: () => api.get('/finished-goods/summary/by-product'),
+  getByProductCode: (productCode) => api.get(`/finished-goods/product/${productCode}`),
+  create: (data) => api.post('/finished-goods/', data),
+  delete: (id) => api.delete(`/finished-goods/${id}`),
+  updateStatus: (id, status) => api.patch(`/finished-goods/${id}/status`, null, { params: { status } }),
+  adjustQuantity: (id, newQuantity, reason) => api.patch(`/finished-goods/${id}/adjust`, null, { params: { new_quantity: newQuantity, reason } }),
+  getStatistics: () => api.get('/finished-goods/statistics/overview'),
+};
+
+// Sales API
+export const salesAPI = {
+  getAll: () => api.get('/sales/'),
+  getById: (id) => api.get(`/sales/${id}`),
+  getDetails: (id) => api.get(`/sales/${id}/details`),
+  create: (data) => api.post('/sales/', data),
+  delete: (id) => api.delete(`/sales/${id}`),
+  updateStatus: (id, status) => api.patch(`/sales/${id}/status`, null, { params: { status } }),
+  fulfill: (id) => api.post(`/sales/${id}/fulfill`),
+  recordPayment: (id, amount, paymentMethod, paymentReference) =>
+    api.post(`/sales/${id}/payment`, null, {
+      params: {
+        amount,
+        payment_method: paymentMethod,
+        payment_reference: paymentReference
+      }
+    }),
+  getSummary: () => api.get('/sales/statistics/summary'),
+};
+
 export default api;

@@ -9,6 +9,11 @@ import CreatePurchaseOrderForm from './components/CreatePurchaseOrderForm';
 import InventoryDashboard from './components/InventoryDashboard';
 import BOMList from './components/BOMList';
 import CreateBOMForm from './components/CreateBOMForm';
+import ProductionBatchList from './components/ProductionBatchList';
+import CreateProductionBatchForm from './components/CreateProductionBatchForm';
+import FinishedGoodsInventory from './components/FinishedGoodsInventory';
+import SalesOrdersList from './components/SalesOrdersList';
+import CreateSalesOrderForm from './components/CreateSalesOrderForm';
 
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
@@ -34,6 +39,16 @@ function App() {
     setCurrentView('bom');
   };
 
+  const handleProductionBatchAdded = () => {
+    setRefreshTrigger(prev => prev + 1);
+    setCurrentView('production');
+  };
+
+  const handleSalesOrderAdded = () => {
+    setRefreshTrigger(prev => prev + 1);
+    setCurrentView('sales');
+  };
+
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊' },
     { id: 'materials', label: 'Raw Materials', icon: '📦' },
@@ -41,8 +56,9 @@ function App() {
     { id: 'purchase-orders', label: 'Purchase Orders', icon: '🛒' },
     { id: 'inventory', label: 'Raw Material Inventory', icon: '📋' },
     { id: 'bom', label: 'Bill of Materials', icon: '📝' },
-    { id: 'production', label: 'Production', icon: '⚙️', disabled: true },
-    { id: 'sales', label: 'Sales', icon: '💰', disabled: true },
+    { id: 'production', label: 'Production', icon: '⚙️' },
+    { id: 'finished-goods', label: 'Finished Goods', icon: '📦' },
+    { id: 'sales', label: 'Sales', icon: '💰' },
   ];
 
   return (
@@ -117,6 +133,24 @@ function App() {
               <span>Create BOM</span>
             </button>
           )}
+          {currentView === 'production' && (
+            <button
+              onClick={() => setCurrentView('create-production-batch')}
+              className="w-full btn-primary flex items-center justify-center space-x-2"
+            >
+              <span className="text-xl">+</span>
+              <span>Create Batch</span>
+            </button>
+          )}
+          {currentView === 'sales' && (
+            <button
+              onClick={() => setCurrentView('create-sales-order')}
+              className="w-full btn-primary flex items-center justify-center space-x-2"
+            >
+              <span className="text-xl">+</span>
+              <span>Create Order</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -131,7 +165,9 @@ function App() {
                  (currentView === 'add-material' ? 'Add Material' :
                   currentView === 'add-supplier' ? 'Add Supplier' :
                   currentView === 'create-po' ? 'Create Purchase Order' :
-                  currentView === 'create-bom' ? 'Create Bill of Materials' : '')}
+                  currentView === 'create-bom' ? 'Create Bill of Materials' :
+                  currentView === 'create-production-batch' ? 'Create Production Batch' :
+                  currentView === 'create-sales-order' ? 'Create Sales Order' : '')}
               </h2>
               <p className="text-sm text-gray-500 mt-1">
                 {currentView === 'dashboard' && 'Overview of your inventory system'}
@@ -140,10 +176,15 @@ function App() {
                 {currentView === 'purchase-orders' && 'Manage purchase orders'}
                 {currentView === 'inventory' && 'Track and manage raw material stock levels'}
                 {currentView === 'bom' && 'Define materials required for your products'}
+                {currentView === 'production' && 'Manage production batches and manufacturing'}
+                {currentView === 'finished-goods' && 'View and manage finished goods inventory'}
+                {currentView === 'sales' && 'Manage sales orders and customer transactions'}
                 {currentView === 'add-material' && 'Add a new raw material'}
                 {currentView === 'add-supplier' && 'Add a new supplier'}
                 {currentView === 'create-po' && 'Create a new purchase order'}
                 {currentView === 'create-bom' && 'Create a new bill of materials'}
+                {currentView === 'create-production-batch' && 'Plan a new production run'}
+                {currentView === 'create-sales-order' && 'Create a new sales order'}
               </p>
             </div>
 
@@ -171,6 +212,11 @@ function App() {
           {currentView === 'inventory' && <InventoryDashboard refreshTrigger={refreshTrigger} />}
           {currentView === 'bom' && <BOMList refreshTrigger={refreshTrigger} />}
           {currentView === 'create-bom' && <CreateBOMForm onSuccess={handleBOMAdded} />}
+          {currentView === 'production' && <ProductionBatchList refreshTrigger={refreshTrigger} />}
+          {currentView === 'create-production-batch' && <CreateProductionBatchForm onSuccess={handleProductionBatchAdded} />}
+          {currentView === 'finished-goods' && <FinishedGoodsInventory refreshTrigger={refreshTrigger} />}
+          {currentView === 'sales' && <SalesOrdersList refreshTrigger={refreshTrigger} />}
+          {currentView === 'create-sales-order' && <CreateSalesOrderForm onSuccess={handleSalesOrderAdded} />}
         </main>
       </div>
     </div>

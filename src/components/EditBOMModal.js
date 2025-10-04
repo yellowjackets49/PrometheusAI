@@ -345,6 +345,25 @@ function EditBOMModal({ bom, onClose, onSuccess }) {
                 </button>
               </div>
 
+              {/* Column Headers */}
+              <div className="hidden md:grid grid-cols-12 gap-3 px-4 mb-2">
+                <div className="col-span-4">
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Material</label>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Quantity</label>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Unit</label>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Scrap %</label>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider">Sequence</label>
+                </div>
+              </div>
+
               <div className="space-y-3">
                 {lineItems.map((item, index) => (
                   <div key={index} className="card p-4 bg-gray-50">
